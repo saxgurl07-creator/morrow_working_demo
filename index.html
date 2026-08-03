@@ -1,0 +1,1371 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f5f5f7">
+<title>Morrow Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800;900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#f5f5f7;
+  --surface:#ffffff;
+  --surface-soft:#fafafa;
+  --text:#1d1d1f;
+  --muted:#6e6e73;
+  --line:#e5e5ea;
+  --accent:#6f5ce7;
+  --accent-dark:#5846c7;
+  --accent-soft:#f0edff;
+  --blue-soft:#edf5ff;
+  --success:#34c759;
+  --danger:#ff3b30;
+  --shadow:0 8px 28px rgba(0,0,0,.07);
+}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;
+  color:var(--text);
+  background:var(--bg);
+}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+.app{
+  width:min(100%,520px);
+  min-height:100vh;
+  margin:0 auto;
+  background:var(--bg);
+  position:relative;
+  padding-bottom:104px;
+}
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:30;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:18px 18px 13px;
+  background:rgba(245,245,247,.88);
+  backdrop-filter:blur(22px);
+  -webkit-backdrop-filter:blur(22px);
+  border-bottom:1px solid rgba(229,229,234,.78);
+}
+.wordmark{
+  display:flex;
+  align-items:center;
+  font-family:"Nunito",-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif;
+  font-size:30px;
+  font-weight:900;
+  letter-spacing:-1.8px;
+  line-height:1;
+  color:#1d1d1f;
+  user-select:none;
+}
+.avatar{
+  width:38px;height:38px;border-radius:50%;
+  display:grid;place-items:center;
+  background:var(--accent-soft);
+  color:var(--accent-dark);
+  font-weight:800;
+}
+.page{
+  display:none;
+  padding:20px 16px 12px;
+}
+.page.active{display:block}
+.greeting{
+  margin:2px 2px 22px;
+}
+.greeting h1{
+  margin:0 0 5px;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:34px;
+  line-height:1.05;
+  letter-spacing:-1.3px;
+}
+.greeting p{margin:0;color:var(--muted);font-size:15px;line-height:1.45}
+.section-title{
+  margin:25px 4px 10px;
+  font-size:12px;
+  font-weight:800;
+  color:var(--muted);
+  letter-spacing:.06em;
+  text-transform:uppercase;
+}
+.card{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:17px;
+  margin-bottom:12px;
+  box-shadow:0 2px 10px rgba(0,0,0,.035);
+}
+.card.featured{
+  border-color:#dfd8ff;
+  box-shadow:0 8px 28px rgba(111,92,231,.10);
+}
+.card-head{
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+}
+.icon{
+  width:44px;height:44px;flex:0 0 44px;
+  border-radius:14px;
+  display:grid;place-items:center;
+  background:var(--accent-soft);
+  color:var(--accent);
+  font-size:21px;
+}
+.icon.blue{background:var(--blue-soft)}
+.card h2,.card h3{margin:0}
+.card h2{
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:22px;
+  line-height:1.12;
+  letter-spacing:-.45px;
+}
+.card h3{font-size:16px;line-height:1.25}
+.card p{
+  margin:5px 0 0;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.5;
+}
+.date{
+  display:inline-block;
+  margin-top:5px;
+  color:var(--accent-dark);
+  font-size:13px;
+  font-weight:750;
+}
+.assistant{
+  margin:15px 0 0;
+  font-size:15px;
+  line-height:1.48;
+}
+.teacher-list{
+  margin-top:16px;
+  border-top:1px solid var(--line);
+}
+.teacher-group{
+  --kid:#6f5ce7;
+  position:relative;
+  padding:18px 0 18px 14px;
+  border-bottom:1px solid var(--line);
+}
+.teacher-group::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:18px;
+  bottom:18px;
+  width:4px;
+  border-radius:99px;
+  background:var(--kid);
+}
+.teacher-group:last-child{
+  border-bottom:0;
+  padding-bottom:4px;
+}
+.teacher-name{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:10px;
+}
+.teacher-name h3{
+  font-size:17px;
+  line-height:1.25;
+}
+.teacher-context{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin-top:3px;
+  color:var(--muted);
+  font-size:12px;
+}
+.kid-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--kid);
+}
+.preview-favorites{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+.favorite-preview{
+  min-width:0;
+  padding:10px 11px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:#f7f7f9;
+}
+.favorite-preview .category{
+  display:block;
+  margin-bottom:3px;
+  color:var(--muted);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.045em;
+  text-transform:uppercase;
+}
+.favorite-preview .value{
+  display:block;
+  overflow:hidden;
+  color:var(--text);
+  font-size:12px;
+  font-weight:700;
+  line-height:1.3;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.teacher-actions{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+  margin-top:11px;
+}
+.teacher-actions .btn{
+  padding:8px 10px;
+  font-size:12px;
+}
+.teacher-details{
+  display:none;
+  margin-top:13px;
+  padding:13px;
+  border-radius:16px;
+  background:#f7f7f9;
+  border:1px solid var(--line);
+}
+.teacher-details.open{display:block}
+.detail-category + .detail-category{margin-top:12px}
+.detail-category strong{
+  display:block;
+  margin-bottom:6px;
+  color:var(--muted);
+  font-size:10px;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+}
+.detail-items{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
+.detail-item{
+  display:inline-flex;
+  padding:7px 9px;
+  border:1px solid #e3e3e8;
+  border-radius:999px;
+  background:#fff;
+  color:var(--text);
+  font-size:11px;
+  font-weight:650;
+}
+.gift-ideas{
+  display:none;
+  margin-top:11px;
+  padding:12px;
+  border-radius:15px;
+  background:#f3f1ff;
+  color:var(--text);
+  font-size:12px;
+  line-height:1.5;
+}
+.gift-ideas.open{display:block}
+.gift-ideas strong{
+  display:block;
+  margin-bottom:4px;
+  color:var(--accent-dark);
+}
+.label{
+  margin-top:16px;
+  font-size:11px;
+  font-weight:800;
+  color:var(--muted);
+  letter-spacing:.055em;
+  text-transform:uppercase;
+}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:9px}
+.chip{
+  display:inline-flex;
+  align-items:center;
+  padding:8px 11px;
+  border-radius:999px;
+  background:var(--accent-soft);
+  color:var(--accent-dark);
+  font-size:12px;
+  font-weight:700;
+}
+.reason{
+  margin-top:12px;
+  padding:10px 11px;
+  border-radius:13px;
+  background:var(--surface-soft);
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.45;
+}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
+.btn{
+  border:0;
+  border-radius:13px;
+  padding:10px 13px;
+  font-weight:750;
+  transition:.16s ease;
+}
+.btn:active{transform:scale(.98)}
+.btn.primary{background:var(--accent);color:#fff}
+.btn.secondary{background:var(--accent-soft);color:var(--accent-dark)}
+.btn.neutral{background:#f1f1f3;color:var(--text)}
+.btn.text{background:transparent;color:var(--accent);padding-left:4px;padding-right:4px}
+.empty{
+  padding:34px 18px;
+  text-align:center;
+  color:var(--muted);
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:22px;
+}
+
+.inbox-group{margin:0 0 24px}
+.inbox-group-title{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin:0 4px 9px;
+  color:var(--muted);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.055em;
+  text-transform:uppercase;
+}
+.inbox-group-title::before{
+  content:"";
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--kid,#6f5ce7);
+}
+.inbox-list{
+  overflow:hidden;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:20px;
+  box-shadow:0 2px 10px rgba(0,0,0,.035);
+}
+.inbox-row{
+  width:100%;
+  display:grid;
+  grid-template-columns:58px 1fr 22px;
+  gap:12px;
+  align-items:center;
+  padding:12px;
+  border:0;
+  border-bottom:1px solid var(--line);
+  background:transparent;
+  color:var(--text);
+  text-align:left;
+}
+.inbox-row:last-child{border-bottom:0}
+.inbox-row:active{background:#f3f3f5}
+.inbox-thumb{
+  width:58px;
+  height:58px;
+  object-fit:cover;
+  border-radius:13px;
+  border:1px solid var(--line);
+  background:#f2f2f7;
+}
+.inbox-thumb.placeholder{
+  display:grid;
+  place-items:center;
+  color:var(--accent);
+  font-size:22px;
+}
+.inbox-title{
+  overflow:hidden;
+  font-size:15px;
+  font-weight:750;
+  line-height:1.25;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.inbox-meta{
+  margin-top:4px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.35;
+}
+.inbox-chevron{
+  color:#aeaeb2;
+  font-size:22px;
+  text-align:right;
+}
+.sheet-backdrop{
+  position:fixed;
+  inset:0;
+  z-index:80;
+  display:none;
+  align-items:flex-end;
+  justify-content:center;
+  padding:18px 10px calc(18px + env(safe-area-inset-bottom));
+  background:rgba(0,0,0,.28);
+  backdrop-filter:blur(5px);
+  -webkit-backdrop-filter:blur(5px);
+}
+.sheet-backdrop.open{display:flex}
+.detail-sheet{
+  width:min(100%,500px);
+  max-height:88vh;
+  overflow:auto;
+  padding:14px 16px 20px;
+  border-radius:28px;
+  background:#fff;
+  box-shadow:0 28px 80px rgba(0,0,0,.22);
+}
+.sheet-handle{
+  width:38px;
+  height:5px;
+  margin:0 auto 14px;
+  border-radius:99px;
+  background:#d1d1d6;
+}
+.sheet-top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+}
+.sheet-top h2{
+  margin:0;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:26px;
+  letter-spacing:-.5px;
+}
+.sheet-close{
+  width:32px;
+  height:32px;
+  border:0;
+  border-radius:50%;
+  background:#f1f1f3;
+  color:var(--muted);
+  font-size:18px;
+}
+.sheet-image{
+  width:100%;
+  max-height:310px;
+  object-fit:contain;
+  margin-top:16px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:#f7f7f9;
+}
+.sheet-section{
+  margin-top:18px;
+  padding-top:16px;
+  border-top:1px solid var(--line);
+}
+.sheet-section h3{
+  margin:0 0 10px;
+  color:var(--muted);
+  font-size:11px;
+  letter-spacing:.055em;
+  text-transform:uppercase;
+}
+.sheet-facts{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+}
+.sheet-fact{
+  padding:11px;
+  border-radius:14px;
+  background:#f7f7f9;
+}
+.sheet-fact span{
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+}
+.sheet-fact strong{
+  display:block;
+  margin-top:3px;
+  font-size:13px;
+}
+.upload-card{
+  padding:25px 18px;
+  text-align:center;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:24px;
+  box-shadow:var(--shadow);
+}
+.upload-icon{
+  width:54px;height:54px;
+  margin:0 auto 12px;
+  border-radius:17px;
+  display:grid;place-items:center;
+  background:var(--accent-soft);
+  color:var(--accent);
+  font-size:30px;
+}
+.upload-card h2{
+  margin:0 0 5px;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:25px;
+  letter-spacing:-.55px;
+}
+.upload-card p{margin:0;color:var(--muted);font-size:13px;line-height:1.45}
+#file{display:none}
+#preview{
+  display:none;
+  width:100%;
+  max-height:260px;
+  object-fit:contain;
+  margin-top:16px;
+  border-radius:16px;
+  border:1px solid var(--line);
+  background:#fff;
+}
+.status{
+  display:none;
+  text-align:left;
+  margin-top:14px;
+  padding:14px;
+  border-radius:16px;
+  background:var(--surface-soft);
+  border:1px solid var(--line);
+}
+.status strong{font-size:14px}
+.steps{display:grid;gap:7px;margin-top:10px}
+.steps span{font-size:12px;color:#a1a1a6}
+.steps span.active{color:var(--accent);font-weight:750}
+.bar{height:6px;margin-top:12px;border-radius:99px;background:#e9e9ed;overflow:hidden}
+.bar span{display:block;width:0;height:100%;background:var(--accent);transition:.8s}
+#reviewForm{display:none}
+.review-title{
+  margin:20px 2px 10px;
+}
+.review-title h2{
+  margin:0;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:27px;
+  letter-spacing:-.7px;
+}
+.review-title p{margin:4px 0 0;color:var(--muted);font-size:13px}
+.form-card{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:16px;
+  margin-bottom:12px;
+}
+.form-card-head{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  margin-bottom:12px;
+}
+.form-card-head .icon{width:40px;height:40px;flex-basis:40px}
+.form-card-head h3{margin:0;font-size:16px}
+.form-card-head p{margin:2px 0 0;font-size:12px;color:var(--muted)}
+.field{margin-top:10px}
+.field:first-of-type{margin-top:0}
+.field label{
+  display:block;
+  margin:0 0 6px;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.055em;
+  text-transform:uppercase;
+}
+.input{
+  width:100%;
+  padding:12px 13px;
+  border:1px solid var(--line);
+  border-radius:13px;
+  background:var(--surface-soft);
+  color:var(--text);
+  outline:none;
+}
+.input:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(111,92,231,.13);
+  background:#fff;
+}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.promise{
+  display:flex;
+  gap:11px;
+  padding:15px;
+  border-radius:18px;
+  background:var(--accent-soft);
+  color:var(--accent-dark);
+  font-size:13px;
+  line-height:1.45;
+}
+.promise strong{display:block;margin-bottom:3px}
+.search-box{
+  display:flex;
+  gap:8px;
+  padding:5px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:16px;
+  box-shadow:0 2px 10px rgba(0,0,0,.035);
+}
+.search-box input{
+  flex:1;
+  border:0;
+  outline:none;
+  background:transparent;
+  padding:10px;
+  min-width:0;
+}
+.answer{margin-top:12px}
+.bottom-nav{
+  position:fixed;
+  left:50%;
+  bottom:0;
+  transform:translateX(-50%);
+  z-index:40;
+  width:min(100%,520px);
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  padding:9px 8px calc(10px + env(safe-area-inset-bottom));
+  background:rgba(250,250,252,.92);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  border-top:1px solid rgba(229,229,234,.9);
+}
+.nav-btn{
+  border:0;
+  background:transparent;
+  color:#8e8e93;
+  padding:5px 2px 2px;
+  font-size:10px;
+  font-weight:700;
+}
+.nav-icon{
+  display:grid;
+  place-items:center;
+  width:29px;height:29px;
+  margin:0 auto 3px;
+  border-radius:10px;
+  font-size:20px;
+  line-height:1;
+}
+.nav-btn.active{color:var(--accent)}
+.nav-btn.active .nav-icon{background:var(--accent-soft)}
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:91px;
+  transform:translate(-50%,20px);
+  z-index:60;
+  opacity:0;
+  padding:11px 15px;
+  border-radius:999px;
+  background:#1d1d1f;
+  color:#fff;
+  font-size:13px;
+  font-weight:750;
+  transition:.22s;
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(min-width:700px){
+  body{padding:24px 0}
+  .app{
+    min-height:calc(100vh - 48px);
+    border:1px solid #dddde2;
+    border-radius:34px;
+    overflow:hidden;
+    box-shadow:0 28px 80px rgba(0,0,0,.13);
+  }
+  .bottom-nav{
+    bottom:24px;
+    border-radius:0 0 34px 34px;
+  }
+}
+@media(max-width:420px){
+  .two-col{grid-template-columns:1fr}
+  .page{padding-left:13px;padding-right:13px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="wordmark" aria-label="Morrow">morrow</div>
+    <div class="avatar">C</div>
+  </header>
+
+  <main>
+    <section class="page active" id="homePage">
+      <div class="greeting">
+        <h1>Good morning.</h1>
+        <p>Here’s what matters today.</p>
+      </div>
+
+      <div class="section-title">Needs you today</div>
+      <div id="todayList"></div>
+
+      <div class="section-title">Coming up</div>
+      <article class="card">
+        <div class="card-head">
+          <div class="icon blue">🚌</div>
+          <div>
+            <h3>Science Museum field trip</h3>
+            <p>September 12 at 8:00 AM</p>
+          </div>
+        </div>
+        <div class="reason">Pack lunch and return the permission slip.</div>
+      </article>
+
+      <div class="section-title">One useful insight</div>
+      <article class="card">
+        <div class="card-head">
+          <div class="icon">✨</div>
+          <div>
+            <h3>All three children are off October 5–9</h3>
+            <p>This may be a good week to plan a trip or arrange childcare.</p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="page" id="inboxPage">
+      <div class="greeting">
+        <h1>Life Inbox</h1>
+        <p>Everything Morrow is holding for later.</p>
+      </div>
+      <div id="libraryList"></div>
+    </section>
+
+    <section class="page" id="addPage">
+      <div class="greeting">
+        <h1>Add to Morrow</h1>
+        <p>Share something you may need later.</p>
+      </div>
+
+      <div class="upload-card">
+        <div class="upload-icon">＋</div>
+        <h2>Teacher favorites</h2>
+        <p>Choose a clear JPG, PNG, or WebP image.</p>
+        <input id="file" type="file" accept="image/jpeg,image/png,image/webp">
+        <button class="btn primary" style="margin-top:14px" onclick="file.click()">Choose image</button>
+        <img id="preview" alt="Selected image preview">
+        <div class="status" id="status">
+          <strong id="statusTitle">Morrow is reading this…</strong>
+          <div id="statusText" style="margin-top:3px;color:var(--muted);font-size:12px">Finding the teacher and preferences.</div>
+          <div class="steps">
+            <span id="step1">Reading the image</span>
+            <span id="step2">Finding names and favorites</span>
+            <span id="step3">Getting things ready</span>
+          </div>
+          <div class="bar"><span id="bar"></span></div>
+        </div>
+      </div>
+
+      <form id="reviewForm" onsubmit="saveMemory(event)">
+        <div class="review-title">
+          <h2>Here’s what I found.</h2>
+          <p>Correct anything that looks wrong before saving.</p>
+        </div>
+
+        <div class="form-card">
+          <div class="form-card-head">
+            <div class="icon">💜</div>
+            <div><h3>Teacher profile</h3><p>The person and class this belongs to</p></div>
+          </div>
+          <div class="field"><label>Teacher name</label><input class="input" id="teacher" required></div>
+          <div class="two-col">
+            <div class="field"><label>Child / class</label><input class="input" id="child"></div>
+            <div class="field"><label>School</label><input class="input" id="school"></div>
+          </div>
+          <div class="field">
+            <label>Teacher birthday</label>
+            <input class="input" id="birthday" placeholder="Example: October 18">
+          </div>
+        </div>
+
+        <div class="form-card">
+          <div class="form-card-head">
+            <div class="icon">✨</div>
+            <div><h3>Favorites</h3><p>What may be useful later</p></div>
+          </div>
+          <div class="field"><label>Favorite drinks</label><input class="input" id="drinks"></div>
+          <div class="field"><label>Favorite snacks</label><input class="input" id="snacks"></div>
+          <div class="field"><label>Favorite stores</label><input class="input" id="stores"></div>
+          <div class="field"><label>Other likes</label><input class="input" id="likes"></div>
+          <div class="field"><label>Dislikes / allergies</label><input class="input" id="dislikes"></div>
+        </div>
+
+        <div class="promise">
+          <div>🔔</div>
+          <div><strong>Morrow will bring this back when it matters.</strong>Teacher Appreciation, Winter Break, the last week of school, and one week before the teacher’s birthday.</div>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary" type="submit">Save to Morrow</button>
+          <button class="btn neutral" type="button" onclick="resetUpload()">Start over</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="page" id="askPage">
+      <div class="greeting">
+        <h1>Ask Morrow</h1>
+        <p>Ask about anything you’ve saved.</p>
+      </div>
+      <div class="search-box">
+        <input id="askInput" placeholder="What does Mr. Holzemer like?">
+        <button class="btn primary" onclick="askMorrow()">Ask</button>
+      </div>
+      <div class="answer" id="answer"></div>
+    </section>
+  </main>
+
+  <div class="sheet-backdrop" id="detailBackdrop" onclick="closeInboxDetail(event)">
+    <section class="detail-sheet" id="detailSheet" onclick="event.stopPropagation()">
+      <div class="sheet-handle"></div>
+      <div id="detailContent"></div>
+    </section>
+  </div>
+
+  <nav class="bottom-nav">
+    <button class="nav-btn active" data-page="home" onclick="showPage('home')">
+      <span class="nav-icon">⌂</span>Home
+    </button>
+    <button class="nav-btn" data-page="inbox" onclick="showPage('inbox')">
+      <span class="nav-icon">▣</span>Inbox
+    </button>
+    <button class="nav-btn" data-page="add" onclick="showPage('add')">
+      <span class="nav-icon">＋</span>Add
+    </button>
+    <button class="nav-btn" data-page="ask" onclick="showPage('ask')">
+      <span class="nav-icon">◯</span>Ask
+    </button>
+  </nav>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = id => document.getElementById(id);
+const fileInput = $('file');
+const preview = $('preview');
+const statusBox = $('status');
+const statusTitle = $('statusTitle');
+const statusText = $('statusText');
+const progressBar = $('bar');
+const reviewForm = $('reviewForm');
+let imageData = '';
+
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  $(name+'Page').classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.page===name));
+  if(name==='home'||name==='inbox') render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function pop(message){
+  const t=$('toast');
+  t.textContent=message;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),1800);
+}
+function csv(v){return Array.isArray(v)?v.join(', '):(v||'')}
+function arr(v){return String(v||'').split(',').map(x=>x.trim()).filter(Boolean)}
+function getItems(){return JSON.parse(localStorage.getItem('morrow')||'[]')}
+function saveItems(items){localStorage.setItem('morrow',JSON.stringify(items))}
+
+fileInput.addEventListener('change', async ()=>{
+  const selected=fileInput.files[0];
+  if(!selected)return;
+
+  statusBox.style.display='block';
+  reviewForm.style.display='none';
+  statusTitle.textContent='Preparing your image…';
+  statusText.textContent='Making it small enough to process securely.';
+  progressBar.style.width='10%';
+  $('step1').classList.add('active');
+
+  try{
+    imageData=await compressImage(selected,1600,.82);
+    preview.src=imageData;
+    preview.style.display='block';
+    statusTitle.textContent='Morrow is reading this…';
+    statusText.textContent='Finding the teacher, favorites, and useful details.';
+    progressBar.style.width='65%';
+    $('step2').classList.add('active');
+
+    const controller=new AbortController();
+    const timeout=setTimeout(()=>controller.abort(),45000);
+    const response=await fetch('/api/process',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({imageData}),
+      signal:controller.signal
+    });
+    clearTimeout(timeout);
+
+    const type=response.headers.get('content-type')||'';
+    const result=type.includes('application/json')
+      ? await response.json()
+      : {error:`The backend returned ${response.status}. Check api/process.js in Vercel.`};
+
+    if(!response.ok)throw new Error(result.error||`Processing failed (${response.status})`);
+
+    $('teacher').value=result.teacher_name||'';
+    $('child').value=result.child_or_class||'';
+    $('school').value=result.school||'';
+    $('birthday').value=result.teacher_birthday||'';
+    $('drinks').value=csv(result.favorite_drinks);
+    $('snacks').value=csv(result.favorite_snacks);
+    $('stores').value=csv(result.favorite_stores);
+    $('likes').value=csv(result.other_likes);
+    $('dislikes').value=csv(result.dislikes_or_allergies);
+
+    progressBar.style.width='100%';
+    $('step3').classList.add('active');
+    statusTitle.textContent='All set.';
+    statusText.textContent='Review what I found, then save it.';
+    reviewForm.style.display='block';
+    reviewForm.scrollIntoView({behavior:'smooth',block:'start'});
+  }catch(error){
+    progressBar.style.width='0%';
+    statusTitle.textContent='I could not process that image.';
+    statusText.textContent=error.name==='AbortError'
+      ? 'The request timed out. Check the Vercel logs for /api/process.'
+      : error.message;
+  }
+});
+
+async function compressImage(file,maxDimension,quality){
+  if(!file.type.startsWith('image/'))throw new Error('Please choose an image file.');
+  const original=await readAsDataURL(file);
+  const img=await loadImage(original);
+  const scale=Math.min(1,maxDimension/Math.max(img.width,img.height));
+  const canvas=document.createElement('canvas');
+  canvas.width=Math.max(1,Math.round(img.width*scale));
+  canvas.height=Math.max(1,Math.round(img.height*scale));
+  canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);
+  return canvas.toDataURL('image/jpeg',quality);
+}
+function readAsDataURL(file){
+  return new Promise((resolve,reject)=>{
+    const reader=new FileReader();
+    reader.onload=()=>resolve(reader.result);
+    reader.onerror=reject;
+    reader.readAsDataURL(file);
+  });
+}
+function loadImage(src){
+  return new Promise((resolve,reject)=>{
+    const img=new Image();
+    img.onload=()=>resolve(img);
+    img.onerror=()=>reject(new Error('The image could not be opened.'));
+    img.src=src;
+  });
+}
+function saveMemory(e){
+  e.preventDefault();
+  const item={
+    id:Date.now(),
+    teacher:$('teacher').value.trim(),
+    child:$('child').value.trim(),
+    school:$('school').value.trim(),
+    birthday:$('birthday').value.trim(),
+    drinks:arr($('drinks').value),
+    snacks:arr($('snacks').value),
+    stores:arr($('stores').value),
+    likes:arr($('likes').value),
+    dislikes:arr($('dislikes').value),
+    image:imageData,
+    created:new Date().toISOString(),
+    triggered:false
+  };
+  const items=getItems();
+  items.unshift(item);
+  saveItems(items);
+  resetUpload();
+  pop('Saved to Morrow ✓');
+  showPage('inbox');
+}
+function parseBirthday(value){
+  if(!value)return null;
+  const cleaned=String(value).trim().replace(/(\d+)(st|nd|rd|th)/gi,'$1');
+  const year=new Date().getFullYear();
+  const parsed=new Date(`${cleaned}, ${year}`);
+  if(Number.isNaN(parsed.getTime()))return null;
+  return {month:parsed.getMonth(),day:parsed.getDate()};
+}
+function birthdayDisplay(value){
+  const b=parseBirthday(value);
+  if(!b)return value||'';
+  return new Date(2000,b.month,b.day).toLocaleDateString('en-US',{month:'long',day:'numeric'});
+}
+function nextBirthdayDate(value){
+  const b=parseBirthday(value);
+  if(!b)return null;
+  const now=new Date();
+  let next=new Date(now.getFullYear(),b.month,b.day);
+  next.setHours(0,0,0,0);
+  const today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  if(next<today)next=new Date(now.getFullYear()+1,b.month,b.day);
+  return next;
+}
+function birthdayReminderDate(value){
+  const next=nextBirthdayDate(value);
+  if(!next)return null;
+  const reminder=new Date(next);
+  reminder.setDate(next.getDate()-7);
+  return reminder;
+}
+function shouldShowBirthdayMoment(item){
+  if(!item.birthday||item.birthdayDone)return false;
+  const reminder=birthdayReminderDate(item.birthday);
+  const birthday=nextBirthdayDate(item.birthday);
+  if(!reminder||!birthday)return false;
+  const today=new Date();
+  today.setHours(0,0,0,0);
+  const end=new Date(birthday);
+  end.setDate(end.getDate()+1);
+  return today>=reminder && today<end;
+}
+function birthdayCard(items){
+  const due=items.filter(shouldShowBirthdayMoment);
+  if(!due.length)return '';
+  const sections=due.map(x=>{
+    const color=kidColor(x);
+    const context=[x.child,x.school].filter(Boolean).map(esc).join(' · ');
+    return `<section class="teacher-group" style="--kid:${color}">
+      <div class="teacher-name">
+        <div>
+          <h3>${esc(x.teacher||'Teacher')}</h3>
+          <div class="teacher-context">
+            <span class="kid-dot"></span>
+            ${context?`${context} · `:''}${esc(birthdayDisplay(x.birthday))}
+          </div>
+        </div>
+      </div>
+      <div class="preview-favorites">${previewCategories(x).map(c=>`<div class="favorite-preview">
+        <span class="category">${c.icon} ${c.label}</span>
+        <span class="value" title="${esc(c.value)}">${esc(c.value)}</span>
+      </div>`).join('')}</div>
+      <div class="teacher-actions">
+        <button class="btn neutral" onclick="toggleTeacherDetails(${x.id},this)">View favorites</button>
+        <button class="btn secondary" onclick="showGiftIdeas(${x.id})">Gift ideas</button>
+        <button class="btn text" onclick="markBirthdayDone(${x.id})">Done</button>
+      </div>
+      <div class="teacher-details" id="details-${x.id}">
+        ${[
+          detailCategory('Favorite drinks',x.drinks),
+          detailCategory('Favorite snacks',x.snacks),
+          detailCategory('Favorite stores',x.stores),
+          detailCategory('Other likes',x.likes),
+          detailCategory('Dislikes / allergies',x.dislikes)
+        ].join('')}
+      </div>
+      <div class="gift-ideas" id="gifts-${x.id}"></div>
+    </section>`;
+  }).join('');
+  return `<article class="card featured">
+    <div class="card-head">
+      <div class="icon">🎂</div>
+      <div>
+        <h2>Teacher birthdays coming up</h2>
+        <span class="date">One week away</span>
+      </div>
+    </div>
+    <div class="assistant">Here are the teachers you may want to plan for.</div>
+    <div class="teacher-list">${sections}</div>
+  </article>`;
+}
+function markBirthdayDone(id){
+  saveItems(getItems().map(x=>x.id===id?{...x,birthdayDone:true}:x));
+  render();
+  pop('Birthday marked done');
+}
+
+function teacherWeekDates(){
+  const now=new Date();
+  let year=now.getFullYear();
+  function range(y){
+    const may1=new Date(y,4,1);
+    const offset=(8-may1.getDay())%7;
+    const monday=new Date(y,4,1+offset);
+    const friday=new Date(monday);
+    friday.setDate(monday.getDate()+4);
+    return {monday,friday};
+  }
+  let r=range(year);
+  if(now>new Date(year,4,r.friday.getDate()+7))r=range(++year);
+  const month=r.monday.toLocaleString('en-US',{month:'long'});
+  return `${month} ${r.monday.getDate()}–${r.friday.getDate()}, ${year}`;
+}
+function render(){
+  const items=getItems();
+  const active=items.filter(x=>x.triggered);
+  const birthdayMoment=birthdayCard(items);
+  const teacherMoment=active.length?teacherAppreciationCard(active):'';
+  $('todayList').innerHTML=(birthdayMoment+teacherMoment) ||
+    `<div class="empty">Nothing needs your attention right now.<br><button class="btn text" onclick="showPage('inbox')">Preview something from your Inbox</button></div>`;
+  $('libraryList').innerHTML=items.length
+    ? inboxGroups(items)
+    : `<div class="empty">Nothing saved yet.<br><button class="btn text" onclick="showPage('add')">Add your first item</button></div>`;
+}
+function favoriteTags(x,limit=8){
+  const all=[...x.drinks,...x.snacks,...x.stores,...x.likes].filter(Boolean);
+  return all.slice(0,limit).map(v=>`<span class="chip">${esc(v)}</span>`).join('')||'<span class="chip">Preferences saved</span>';
+}
+function kidColor(x){
+  const palette=['#6f5ce7','#2f7dd1','#e06b8f','#2f9d7e','#d57b31','#8c63b8'];
+  const key=String(x.child||x.teacher||'teacher');
+  let hash=0;
+  for(let i=0;i<key.length;i++)hash=(hash*31+key.charCodeAt(i))>>>0;
+  return palette[hash%palette.length];
+}
+function firstFavorite(list,fallback){
+  return Array.isArray(list)&&list.length?list[0]:fallback;
+}
+function previewCategories(x){
+  return [
+    {icon:'☕',label:'Drink',value:firstFavorite(x.drinks,'Not listed')},
+    {icon:'🥨',label:'Snack',value:firstFavorite(x.snacks,'Not listed')},
+    {icon:'🛍️',label:'Store',value:firstFavorite(x.stores,'Not listed')},
+    {icon:'✨',label:'Interest',value:firstFavorite(x.likes,'Not listed')}
+  ];
+}
+function detailCategory(label,items){
+  if(!Array.isArray(items)||!items.length)return '';
+  return `<div class="detail-category">
+    <strong>${label}</strong>
+    <div class="detail-items">${items.map(v=>`<span class="detail-item">${esc(v)}</span>`).join('')}</div>
+  </div>`;
+}
+function teacherAppreciationCard(items){
+  const teacherSections=items.map(x=>{
+    const color=kidColor(x);
+    const context=[x.child,x.school].filter(Boolean).map(esc).join(' · ');
+    const previews=previewCategories(x).map(c=>`<div class="favorite-preview">
+      <span class="category">${c.icon} ${c.label}</span>
+      <span class="value" title="${esc(c.value)}">${esc(c.value)}</span>
+    </div>`).join('');
+    const details=[
+      detailCategory('Favorite drinks',x.drinks),
+      detailCategory('Favorite snacks',x.snacks),
+      detailCategory('Favorite stores',x.stores),
+      detailCategory('Other likes',x.likes),
+      detailCategory('Dislikes / allergies',x.dislikes)
+    ].join('');
+    return `<section class="teacher-group" style="--kid:${color}">
+      <div class="teacher-name">
+        <div>
+          <h3>${esc(x.teacher||'Teacher')}</h3>
+          ${context?`<div class="teacher-context"><span class="kid-dot"></span>${context}</div>`:''}
+        </div>
+      </div>
+      <div class="preview-favorites">${previews}</div>
+      <div class="teacher-actions">
+        <button class="btn neutral" onclick="toggleTeacherDetails(${x.id},this)">View favorites</button>
+        <button class="btn secondary" onclick="showGiftIdeas(${x.id})">Gift ideas</button>
+      </div>
+      <div class="teacher-details" id="details-${x.id}">${details||'<span class="teacher-context">No additional favorites saved.</span>'}</div>
+      <div class="gift-ideas" id="gifts-${x.id}"></div>
+    </section>`;
+  }).join('');
+
+  return `<article class="card featured">
+    <div class="card-head">
+      <div class="icon">🌷</div>
+      <div>
+        <h2>Teacher Appreciation Week</h2>
+        <span class="date">${teacherWeekDates()}</span>
+      </div>
+    </div>
+    <div class="assistant">Here are the teachers you’ll want to plan for.</div>
+    <div class="teacher-list">${teacherSections}</div>
+    <div class="actions">
+      <button class="btn secondary" onclick="markGroupDone()">Mark all done</button>
+    </div>
+  </article>`;
+}
+function toggleTeacherDetails(id,button){
+  const box=$('details-'+id);
+  const open=box.classList.toggle('open');
+  button.textContent=open?'Hide favorites':'View favorites';
+}
+function showGiftIdeas(id){
+  const item=getItems().find(x=>x.id===id);
+  if(!item)return;
+  const box=$('gifts-'+id);
+  if(box.classList.contains('open')){
+    box.classList.remove('open');
+    return;
+  }
+  const ideas=[];
+  if(item.stores?.[0])ideas.push(`${item.stores[0]} gift card`);
+  if(item.drinks?.[0])ideas.push(`${item.drinks[0]} with a handwritten note`);
+  if(item.snacks?.[0])ideas.push(`A small treat with ${item.snacks[0]}`);
+  if(item.likes?.[0])ideas.push(`A gift inspired by ${item.likes[0]}`);
+  box.innerHTML=`<strong>Gift ideas for ${esc(item.teacher||'this teacher')}</strong>${ideas.slice(0,3).map(v=>`• ${esc(v)}`).join('<br>')||'Open the full favorites list for inspiration.'}`;
+  box.classList.add('open');
+}
+function itemAddedLabel(item){
+  if(!item.created)return 'Previously added';
+  const date=new Date(item.created);
+  if(Number.isNaN(date.getTime()))return 'Previously added';
+  const today=new Date();
+  const sameDay=date.toDateString()===today.toDateString();
+  if(sameDay)return 'Added today';
+  return `Added ${date.toLocaleDateString('en-US',{month:'short',day:'numeric',year:date.getFullYear()!==today.getFullYear()?'numeric':undefined})}`;
+}
+function inboxGroups(items){
+  const groups={};
+  items.forEach(item=>{
+    const key=(item.child||'Other').trim()||'Other';
+    if(!groups[key])groups[key]=[];
+    groups[key].push(item);
+  });
+  return Object.entries(groups)
+    .sort(([a],[b])=>a.localeCompare(b))
+    .map(([child,groupItems])=>{
+      const color=kidColor(groupItems[0]);
+      return `<section class="inbox-group" style="--kid:${color}">
+        <div class="inbox-group-title">${esc(child)}</div>
+        <div class="inbox-list">${groupItems.map(inboxRow).join('')}</div>
+      </section>`;
+    }).join('');
+}
+function inboxRow(x){
+  const thumb=x.image
+    ? `<img class="inbox-thumb" src="${x.image}" alt="">`
+    : `<div class="inbox-thumb placeholder">📄</div>`;
+  return `<button class="inbox-row" onclick="openInboxDetail(${x.id})">
+    ${thumb}
+    <div>
+      <div class="inbox-title">${esc(x.teacher||'Teacher')} favorites</div>
+      <div class="inbox-meta">Teacher preferences · ${itemAddedLabel(x)}</div>
+    </div>
+    <div class="inbox-chevron">›</div>
+  </button>`;
+}
+function detailFacts(x){
+  const facts=[
+    ['Child / class',x.child],
+    ['School',x.school],
+    ['Birthday',x.birthday?birthdayDisplay(x.birthday):''],
+    ['Type','Teacher preferences']
+  ].filter(([,value])=>value);
+  return facts.map(([label,value])=>`<div class="sheet-fact"><span>${label}</span><strong>${esc(value)}</strong></div>`).join('');
+}
+function openInboxDetail(id){
+  const item=getItems().find(x=>x.id===id);
+  if(!item)return;
+  const fullDetails=[
+    detailCategory('Favorite drinks',item.drinks),
+    detailCategory('Favorite snacks',item.snacks),
+    detailCategory('Favorite stores',item.stores),
+    detailCategory('Other likes',item.likes),
+    detailCategory('Dislikes / allergies',item.dislikes)
+  ].join('');
+  $('detailContent').innerHTML=`<div class="sheet-top">
+      <div>
+        <h2>${esc(item.teacher||'Teacher')}</h2>
+        <div class="inbox-meta">${itemAddedLabel(item)}</div>
+      </div>
+      <button class="sheet-close" onclick="closeInboxDetail()">×</button>
+    </div>
+    ${item.image?`<img class="sheet-image" src="${item.image}" alt="Original teacher favorites upload">`:''}
+    <div class="sheet-section">
+      <h3>Stored information</h3>
+      <div class="sheet-facts">${detailFacts(item)}</div>
+    </div>
+    <div class="sheet-section">
+      <h3>Favorites</h3>
+      ${fullDetails||'<div class="inbox-meta">No favorites were saved.</div>'}
+    </div>
+    <div class="actions">
+      <button class="btn secondary" onclick="previewMoment(${item.id});closeInboxDetail()">Preview future moment</button>
+      <button class="btn neutral" onclick="removeItem(${item.id});closeInboxDetail()">Delete</button>
+    </div>`;
+  $('detailBackdrop').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeInboxDetail(event){
+  if(event&&event.target!==$('detailBackdrop'))return;
+  $('detailBackdrop').classList.remove('open');
+  document.body.style.overflow='';
+}
+function previewMoment(id){
+  saveItems(getItems().map(x=>x.id===id?{...x,triggered:true}:x));
+  pop('Added to Home');
+  showPage('home');
+}
+function markDone(id){
+  saveItems(getItems().map(x=>x.id===id?{...x,triggered:false}:x));
+  render();
+  pop('Marked done');
+}
+function markGroupDone(){
+  saveItems(getItems().map(x=>({...x,triggered:false})));
+  render();
+  pop('Teacher Appreciation Week marked done');
+}
+function removeItem(id){
+  saveItems(getItems().filter(x=>x.id!==id));
+  render();
+  pop('Deleted');
+}
+function askMorrow(){
+  const q=$('askInput').value.trim().toLowerCase();
+  const items=getItems();
+  if(!q){pop('Ask a question first');return}
+  if(!items.length){
+    $('answer').innerHTML='<div class="empty">There is nothing saved yet.</div>';
+    return;
+  }
+  const match=items.find(x=>q.includes(String(x.teacher||'').toLowerCase()))||items[0];
+  const name=esc(match.teacher||'This teacher');
+  $('answer').innerHTML=`<article class="card featured">
+    <div class="card-head"><div class="icon">✨</div><div><h2>${name}</h2><p>Here’s what Morrow has handy.</p></div></div>
+    <div class="chips">${favoriteTags(match,12)}</div>
+  </article>`;
+}
+function resetUpload(){
+  fileInput.value='';
+  preview.src='';
+  preview.style.display='none';
+  statusBox.style.display='none';
+  reviewForm.style.display='none';
+  reviewForm.reset();
+  imageData='';
+  progressBar.style.width='0';
+  ['step1','step2','step3'].forEach(id=>$(id).classList.remove('active'));
+}
+function esc(s=''){
+  return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+}
+render();
+</script>
+</body>
+</html>
